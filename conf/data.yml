@@ -1,0 +1,59 @@
+Assessment(a1):
+   weight: 123.3
+   chest: 45.0
+   thigh: 12.5
+   upperarm: 23.3
+   waist: 32
+   hips: 38
+   trend: true
+   date: 2017-03-10 08:31:00
+
+Assessment(a2):
+   weight: 123.3
+   chest: 45.0
+   thigh: 12
+   upperarm: 23.3
+   waist: 31
+   hips: 36
+   trend: true
+   date: 2017-03-19 08:31:00
+
+
+GymClass(g1):
+   name: Spinning
+   duration: 40
+   timeSlot: Mon, 0700
+   capacity: 20
+   weeks: 8
+   difficulty: high
+   startDate: 2017-09-19
+
+Member(m1):
+  email: homer@simpson.com
+  password: secret
+  name: Homer Simpson
+  address: Springfield, Mass
+  gender: Male
+  height: 1.7
+  startingweight: 101
+  assessments:
+  - a1
+  - a2
+
+Member(m2):
+  email: bart@simpson.com
+  password: secret
+  name: Bart Simpson
+  address: Springfield, Mass
+  gender: Male
+  height: 1.2
+  startingweight: 67
+
+
+Trainer(t1):
+  email: marge@simpson.com
+  password: secret
+
+Trainer(t2):
+  email: lisa@simpson.com
+  password: secret

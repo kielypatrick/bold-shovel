@@ -1,0 +1,45 @@
+#{extends 'main.html' /}
+#{set title:'gymclassdetails' /}
+#{menu id:"gymclassdetails"/}
+
+<div class="ui two column grid basic middle aligned segment">
+    <div class="column">
+        <img class="ui image" src="/public/images/about.jpg">
+    </div>
+    <div class="column">
+        <form class="ui stacked segment form" action="/trainerdashboard/editgymclass/${gymclass.id}" method="POST">
+            <h3 class="ui header">${gymclass.name}</h3>
+            <div class="two fields">
+                <div class="field">
+                    <label>Start Date</label>
+                    <input placeholder="${gymclass.startDate}" type="text" name="gymclass1.startDate" value="${gymclass.startDate}">
+                </div>
+                <div class="field">
+                    <label>Time Slot</label>
+                    <input type="text" type="text" name="gymclass1.timeSlot" value="${gymclass.timeSlot}">
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <label>Duration</label>
+                    <input placeholder="${gymclass.duration}" type="text" name="gymclass1.duration" value="${gymclass.duration}">
+                </div>
+                <div class="field">
+                    <label>Capacity</label>
+                    <input placeholder="${gymclass.capacity} people" type="text" name="gymclass1.capacity" value="${gymclass.capacity}">
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <label>Difficulty</label>
+                    <input placeholder="${gymclass.difficulty}" type="text" name="gymclass1.difficulty" value="${gymclass.difficulty}">
+                </div>
+                <div class="field">
+                    <label>Number of Weeks</label>
+                    <input placeholder="${gymclass.weeks} weeks" type="text" name="gymclass1.weeks" value="${gymclass.weeks}">
+                </div>
+            </div>
+            <button class="ui blue submit button">Save</button>
+        </form>
+    </div>
+</div>

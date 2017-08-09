@@ -1,0 +1,23 @@
+#{extends 'main.html' /}
+#{set title:'Trainer Dashboard' /}
+#{trainermenu id:"dashboard"/}
+
+<section class="ui segment">
+  <div class="column">
+      <h2>
+          Members
+      </h2>
+    #{listmembers members:members/}
+  </div>
+</section>
+<section class="ui segment">
+
+  <div class="column">
+      <h2>
+          Classes
+      </h2>
+    #{listgymclasses gymclasses:gymclasses/}
+      <a href="/trainerdashboard/creategymclass"><button class="ui blue submit button"> Add Class </button></a>
+  </div>
+
+</section>

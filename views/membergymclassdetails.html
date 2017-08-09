@@ -1,0 +1,50 @@
+#{extends 'main.html' /}
+#{set title:'gymclassdetails' /}
+#{menu id:"gymclassdetails"/}
+
+<div class="ui two column grid basic middle aligned segment">
+    <div class="column">
+        <img class="ui image" src="/public/images/about.jpg">
+    </div>
+    <div class="column">
+        <h3 class="ui header">${gymclass.name}</h3>
+        <table class="ui table">
+            <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>Time Slot</th>
+                <th>Duration</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>${gymclass.startDate}</td>
+                <td>${gymclass.timeSlot}</td>
+                <td>${gymclass.duration}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="ui table">
+            <thead>
+            <tr>
+                <th>Capacity</th>
+                <th>Difficulty</th>
+                <th>Number of Weeks</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>${gymclass.capacity}</td>
+                <td>${gymclass.difficulty}</td>
+                <td>${gymclass.weeks}</td>
+            </tr>
+            </tbody>
+        </table>
+        <form action="/dashboard/addgymclass/${gymclass.id}" method="POST">>
+
+            <button class="ui blue submit button">Enrol</button>
+        </form>
+    </div>
+</div>
+</div>
