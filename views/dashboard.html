@@ -3,9 +3,29 @@
 #{menu id:"dashboard"/}
 
 <section class="ui segment">
-  #{analytics member:member, memberStats:memberStats/}
+#{analytics member:member, memberStats:memberStats/}
   #{addassessment/}
   #{assessment-table assessments:assessments, member:member/}
+</section>
+
+<section class="ui segment">
+    <div class="column">
+        <h2>
+            My Classes
+        </h2>
+        <table>
+            <tr>
+            #{list items:member.gymclasses, as:'gymclass'}
+                <td><h3> ${gymclass.name}</h3> ${gymclass.timeSlot}  ${gymclass.date} </td>
+                <td>
+                    <a href="/dashboard/${member.id}/quitclass/${gymclass.id}" class="ui icon button">
+                     <i class="icon delete calendar"></i>
+                </td>
+            </tr>
+            #{/list}
+        </table>
+
+    </div>
 </section>
 
 <section class="ui segment">

@@ -12,7 +12,7 @@
             <div class="two fields">
                 <div class="field">
                     <label>Start Date</label>
-                    <input placeholder="${gymclass.startDate}" type="text" name="gymclass1.startDate" value="${gymclass.startDate}">
+                    <input placeholder="${gymclass.date}" type="date" name="gymclass1.date" value="${gymclass.date}">
                 </div>
                 <div class="field">
                     <label>Time Slot</label>
@@ -39,7 +39,10 @@
                     <input placeholder="${gymclass.weeks} weeks" type="text" name="gymclass1.weeks" value="${gymclass.weeks}">
                 </div>
             </div>
+
             <button class="ui blue submit button">Save</button>
         </form>
+
+        <h3>Enrolled members: ${gymclass.members.size()}</h3>
     </div>
 </div>

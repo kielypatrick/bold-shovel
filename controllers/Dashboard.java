@@ -11,6 +11,8 @@ import utils.MemberStats;
 import java.util.Collections;
 import java.util.List;
 
+import static play.Play.id;
+
 public class Dashboard extends Controller
 {
   public static void index()
@@ -49,11 +51,30 @@ public class Dashboard extends Controller
   public static void gymClassDetails(Long id)
   {
     GymClass gymclass = GymClass.findById(id);
+    Logger.info( "Rendering class details for " + gymclass.name);
     render("membergymclassdetails.html", gymclass);
+
   }
 
-  public static void addGymClass()
+  public static void addGymClass(Long id)
   {
-    render();
+    GymClass gymclass = GymClass.findById(id);
+
+    Member member = Accounts.getLoggedInMember();
+    member.addGymClass(gymclass, member);
+    member.save();
+    Logger.info("Enrollin " + member.name + " in " + gymclass.name);
+    redirect("/dashboard");
+  }
+
+  public static void quitGymClass(Long gymclassid, Long memberid)
+  {
+    Member member = Member.findById(memberid);
+    GymClass gymClass = GymClass.findById(gymclassid);
+    member.gymclasses.remove(gymClass);
+    member.save();
+    redirect("/dashboard");
+
+
   }
 }

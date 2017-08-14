@@ -1,19 +1,27 @@
 package models;
 
+import org.joda.time.LocalDate;
 import play.db.jpa.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.text.*;
 import java.util.List;
 
 @Entity
 public class GymClass extends Model
 {
     @ManyToMany(mappedBy = "gymclasses")
-    public List<Member> members;
+    public List<Member> members = new ArrayList<Member>();
+
+  //  @OneToMany
+  //public List<Date> dates = new ArrayList<Date>();
+
 
     public String name;
     public double duration;
@@ -21,14 +29,17 @@ public class GymClass extends Model
     public int capacity;
     public int weeks;
     public String difficulty;
+    public String date;
+    public Calendar calendar;
 
 
 
-    @Lob
-    public String instructor;
-    public Date startDate;
 
-    public GymClass(String name, double duration, String timeSlot, int capacity, int weeks, String difficulty)
+
+    //SimpleDateFormat sdf = new SimpleDateFormat("dd/MM, E, HH");
+
+
+    public GymClass(String name, double duration, String timeSlot, int capacity, int weeks, String difficulty, String date)
     {
         this.name = name;
         this.duration = duration;
@@ -37,14 +48,33 @@ public class GymClass extends Model
         this.weeks = weeks;
         this.difficulty = difficulty;
 
-        this.members = new ArrayList<Member>();
 
-        this.startDate = new Date();
+
+        this.members = new ArrayList<Member>();
+        this.date = date;
+        //this.dates = new ArrayList<Date>();
+
+
+
+
+
     }
+
+    public static void nextClass()
+    {
+
+    }
+
+
+
+
+
 
     public void addMember(Member member)
     {
 
         members.add(member);
     }
+
+
 }

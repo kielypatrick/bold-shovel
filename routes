@@ -1,0 +1,44 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Accounts
+GET    /                                                         Accounts.index
+GET    /signup                                                      Accounts.signup
+GET    /login                                                       Accounts.login
+GET    /logout                                                      Accounts.logout
+POST   /authenticate                                                Accounts.authenticate
+POST   /register                                                     Accounts.register
+GET    /settings                                                    Accounts.settings
+POST   /settings                                                       Accounts.updateSettings
+
+
+# Home page
+GET     /dashboard                                                  Dashboard.index
+POST    /dashboard/addassessment                                      Dashboard.addAssessment
+GET     /dashboard/{memberid}/deleteassessment/{assessmentid}         Dashboard.deleteAssessment
+GET     /dashboard/{memberid}/quitclass/{gymclassid}                 Dashboard.quitGymClass
+GET     /about                                                       About.index
+GET    /dashboard/gymclassdetails/{id}                               Dashboard.gymClassDetails
+POST    /dashboard/addgymclass/{id}                                  Dashboard.addGymClass
+
+# Trainer page
+GET     /trainerdashboard                                          TrainerDashboard.index
+GET     /trainerdashboard/deletemember/{id}                        TrainerDashboard.deleteMember
+GET     /trainerassessment/{id}                                  TrainerDashboard.trainerAssessment
+POST    /editcomment/{id}                                        TrainerDashboard.editComment
+GET    /trainerdashboard/gymclassdetails/{id}                    TrainerDashboard.gymClassDetails
+GET     /trainerdashboard/creategymclass                          TrainerDashboard.createGymClass
+POST    /trainerdashboard/addgymclass                            TrainerDashboard.addGymClass
+GET     /trainerdashboard/deletegymclass/{id}                       TrainerDashboard.deleteGymClass
+POST    /trainerdashboard/editgymclass/{id}                        TrainerDashboard.editGymClassDetails
+
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}

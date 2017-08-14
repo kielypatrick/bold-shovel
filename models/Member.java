@@ -52,7 +52,7 @@ public class Member extends Model
   public void addGymClass(GymClass gymClass, Member member)
   {
     gymclasses.add(gymClass);
-    Logger.info("Adding " + member.name + "to " + gymClass.name);
+    Logger.info("Adding " + member.name + " to " + gymClass.name);
   }
 
   public void removeGymClass(GymClass gymClass)
