@@ -3,13 +3,13 @@ package models;
 import play.Logger;
 import play.db.jpa.Model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static controllers.Accounts.login;
+
 
 @Entity
 public class Member extends Model
@@ -25,8 +25,13 @@ public class Member extends Model
   @OneToMany(cascade = CascadeType.ALL)
   public List<Assessment> assessments = new ArrayList<Assessment>();
 
+  @OneToOne(cascade = CascadeType.ALL)
+  public Appointment appointment;
+
+
+
   @ManyToMany
-  public List<GymClass> gymclasses;
+  public List<Session> sessions;
 
   public Member(String email, String name, String password, String address, String gender, double height, double startingweight)
   {
@@ -49,14 +54,12 @@ public class Member extends Model
     return this.password.equals(password);
   }
 
-  public void addGymClass(GymClass gymClass, Member member)
-  {
-    gymclasses.add(gymClass);
-    Logger.info("Adding " + member.name + " to " + gymClass.name);
+
+
+  public void addSession(Session session, Member member) {
+    sessions.add(session);
+    Logger.info("Adding " + member.name + " to " + session.name);
   }
 
-  public void removeGymClass(GymClass gymClass)
-  {
-    gymclasses.remove(gymClass);
-  }
+
 }

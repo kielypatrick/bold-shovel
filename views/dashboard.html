@@ -6,6 +6,8 @@
 #{analytics member:member, memberStats:memberStats/}
   #{addassessment/}
   #{assessment-table assessments:assessments, member:member/}
+    <a href="/dashboard/bookassessment/${member.id}" >Book Assessment</a>
+
 </section>
 
 <section class="ui segment">
@@ -15,14 +17,37 @@
         </h2>
         <table>
             <tr>
-            #{list items:member.gymclasses, as:'gymclass'}
-                <td><h3> ${gymclass.name}</h3> ${gymclass.timeSlot}  ${gymclass.date} </td>
-                <td>
-                    <a href="/dashboard/${member.id}/quitclass/${gymclass.id}" class="ui icon button">
-                     <i class="icon delete calendar"></i>
-                </td>
+            #{list items:member.sessions, as:'session'}
+                <tr><h3> ${session.gymClassName}, ${session.timeSlot}: </h3> </tr>
+
+                <tr> ${session.name}
+                    <a href="/dashboard/${member.id}/quitclass/${session.id}" class="ui icon button">
+                     <i class="icon red delete calendar"></i>
+                    </a>
+                </tr>
             </tr>
             #{/list}
+        </table>
+
+    </div>
+</section>
+
+<section class="ui segment">
+    <div class="column">
+        <h2>
+            My Sessions
+        </h2>
+        <table>
+        <tr>
+        #{list items:member.sessions, as:'session'}
+            <td><h3> ${session.name}</h3> </td>
+            <td>
+
+                    <i class="icon delete calendar"></i>
+                </a>
+            </td>
+        </tr>
+        #{/list}
         </table>
 
     </div>

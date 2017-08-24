@@ -9,10 +9,14 @@
     <div class="column">
         <form class="ui stacked segment form" action="/trainerdashboard/editgymclass/${gymclass.id}" method="POST">
             <h3 class="ui header">${gymclass.name}</h3>
-            <div class="two fields">
+            <div class="three fields">
                 <div class="field">
-                    <label>Start Date</label>
+                    <label>Start Date: ${gymclass.date}</label>
                     <input placeholder="${gymclass.date}" type="date" name="gymclass1.date" value="${gymclass.date}">
+                </div>
+                <div class="field">
+                    <label>End Date: ${gymclass.endDate}</label>
+                    <input placeholder="${gymclass.endDate}" type="date" name="gymclass1.endDate" value="${gymclass.endDate}">
                 </div>
                 <div class="field">
                     <label>Time Slot</label>
@@ -40,9 +44,44 @@
                 </div>
             </div>
 
+
+
             <button class="ui blue submit button">Save</button>
         </form>
 
-        <h3>Enrolled members: ${gymclass.members.size()}</h3>
+        <h2>Add Sessions</h2>
+
+
+        <div class="ui relaxed divided list">
+        #{list items:gymclass.sessions, as:'session'}
+        <div class="item">
+            <i class="large github middle aligned icon"></i>
+            <div class="content">
+                <div class="header">
+                    <p> Date: ${session.name}  </p>
+                    <p> Spaces remaining: ${session.capacity - session.members.size()}</p>
+                    <a href="/trainerdashboard/${gymclass.id}/deletesession/${session.id}">
+                        <i class="ui large red icon trash"></i>
+                    </a>
+
+
+                </div>
+
+            </div>
+        </div>
+        #{/list}
+
+        </div>
+
+
+        <form class="ui form" action="/trainerdashboard/addSession/${gymclass.id}" method="POST">
+            <div class="ui field">
+                <input type="date" name="date" value="date">  </input>
+            </div>
+            <button class="ui blue submit button">Save</button>
+        </form>
+
+
+
     </div>
 </div>

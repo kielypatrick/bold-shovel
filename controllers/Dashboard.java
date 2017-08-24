@@ -1,17 +1,14 @@
 package controllers;
 
-import models.Assessment;
-import models.GymClass;
-import models.Member;
+import models.*;
 import play.Logger;
 import play.mvc.Controller;
 import utils.Analytics;
 import utils.MemberStats;
 
-import java.util.Collections;
-import java.util.List;
 
-import static play.Play.id;
+import java.util.*;
+
 
 public class Dashboard extends Controller
 {
@@ -20,6 +17,7 @@ public class Dashboard extends Controller
     Logger.info("Rendering Dashboard");
     Member member = Accounts.getLoggedInMember();
     List<Assessment> assessments = member.assessments;
+
     List<GymClass> gymclasses = GymClass.findAll();
     MemberStats memberStats = Analytics.generateMemberStats(member);
     Collections.reverse(assessments);
@@ -38,6 +36,15 @@ public class Dashboard extends Controller
     redirect("/dashboard");
   }
 
+  public static void bookAssessment()
+  {
+
+    List<Trainer> trainers = Trainer.findAll();
+    render("bookassessment.html");
+  }
+
+
+
   public static void deleteAssessment(Long memberid, Long assessmentid)
   {
     Member member = Member.findById(memberid);
@@ -48,33 +55,72 @@ public class Dashboard extends Controller
     redirect("/dashboard");
   }
 
-  public static void gymClassDetails(Long id)
-  {
+
+
+  public static void gymClassDetails(Long id) {
     GymClass gymclass = GymClass.findById(id);
+    Logger.info("sessions: " + gymclass.getSessions());
+
     Logger.info( "Rendering class details for " + gymclass.name);
     render("membergymclassdetails.html", gymclass);
 
   }
 
-  public static void addGymClass(Long id)
-  {
+  public static void addGymClass(Long id) {
+
     GymClass gymclass = GymClass.findById(id);
+    List<Session> sessions = gymclass.sessions;
+    Member member = Accounts.getLoggedInMember();
+
+    for (Session session : sessions) {
+      if ((session.inFuture == true) && (session.members.size() < session.capacity)) {
+        if (member.sessions.contains(session)) {
+          Logger.info(member.name + " in " + session.name + "already duuuuh!");
+          member.sessions.remove(session);
+        }
+        member.sessions.add(session);
+        member.save();
+        Logger.info("Enrollin " + member.name + " in " + sessions);
+      }
+    }
+    redirect("/dashboard");
+
+
+  }
+
+  public static void addSession(Long id)
+  {
+    Session session = Session.findById(id);
 
     Member member = Accounts.getLoggedInMember();
-    member.addGymClass(gymclass, member);
+    if (member.sessions.contains(session)) {
+      Logger.info(member.name + " in " + session.name + "already duuuuh!");
+      redirect("/dashboard");
+    }
+      member.addSession(session, member);
     member.save();
-    Logger.info("Enrollin " + member.name + " in " + gymclass.name);
+    session.save();
+    Logger.info("Enrollin " + member.name + " in " + session.gymClassName + " for "
+            + session.name + ". Total of" + session.members.size());
     redirect("/dashboard");
   }
 
-  public static void quitGymClass(Long gymclassid, Long memberid)
+  public static void quitSession(Long sessionid, Long memberid)
   {
     Member member = Member.findById(memberid);
-    GymClass gymClass = GymClass.findById(gymclassid);
-    member.gymclasses.remove(gymClass);
+    Session session = Session.findById(sessionid);
+    member.sessions.remove(session);
     member.save();
+    Logger.info("Removing " + member.name + " from " + session.gymClassName + " for " + session.name);
     redirect("/dashboard");
 
 
   }
+
+
+
+
+
+
+
 }

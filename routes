@@ -17,10 +17,13 @@ POST   /settings                                                       Accounts.
 GET     /dashboard                                                  Dashboard.index
 POST    /dashboard/addassessment                                      Dashboard.addAssessment
 GET     /dashboard/{memberid}/deleteassessment/{assessmentid}         Dashboard.deleteAssessment
-GET     /dashboard/{memberid}/quitclass/{gymclassid}                 Dashboard.quitGymClass
+GET     /dashboard/{memberid}/quitclass/{sessionid}                 Dashboard.quitSession
 GET     /about                                                       About.index
 GET    /dashboard/gymclassdetails/{id}                               Dashboard.gymClassDetails
 POST    /dashboard/addgymclass/{id}                                  Dashboard.addGymClass
+POST    /dashboard/addsession/{id}                              Dashboard.addSession
+GET    /dashboard/bookassessment                               Dashboard.bookAssessment
+
 
 # Trainer page
 GET     /trainerdashboard                                          TrainerDashboard.index
@@ -31,7 +34,11 @@ GET    /trainerdashboard/gymclassdetails/{id}                    TrainerDashboar
 GET     /trainerdashboard/creategymclass                          TrainerDashboard.createGymClass
 POST    /trainerdashboard/addgymclass                            TrainerDashboard.addGymClass
 GET     /trainerdashboard/deletegymclass/{id}                       TrainerDashboard.deleteGymClass
+GET     /trainerdashboard/{gymClassId}/deletesession/{sessionId}                       TrainerDashboard.deleteSession
 POST    /trainerdashboard/editgymclass/{id}                        TrainerDashboard.editGymClassDetails
+POST    /trainerdashboard/addSession/{id}                   TrainerDashboard.addSession
+
+GET
 
 
 # Ignore favicon requests
