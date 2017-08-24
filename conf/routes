@@ -3,34 +3,42 @@
 # ~~~~
 
 # Accounts
-GET    /                                        Accounts.index
-GET    /signup                                  Accounts.signup
-GET    /login                                   Accounts.login
-GET    /logout                                  Accounts.logout
-POST   /authenticate                            Accounts.authenticate
-POST   /register                                Accounts.register
-GET    /settings                                Accounts.settings
-POST   /settings                                Accounts.updateSettings
+GET    /                                                         Accounts.index
+GET    /signup                                                      Accounts.signup
+GET    /login                                                       Accounts.login
+GET    /logout                                                      Accounts.logout
+POST   /authenticate                                                Accounts.authenticate
+POST   /register                                                     Accounts.register
+GET    /settings                                                    Accounts.settings
+POST   /settings                                                       Accounts.updateSettings
 
 
 # Home page
-GET     /dashboard                              Dashboard.index
-POST    /dashboard/addassessment                Dashboard.addAssessment
-GET     /dashboard/{memberid}/deleteassessment/{assessmentid}  Dashboard.deleteAssessment
-GET     /about                                  About.index
-GET    /dashboard/gymclassdetails/{id}          Dashboard.gymClassDetails
-POST    /dashboard/addgymclass/{id}             Dashboard.addGymClass
+GET     /dashboard                                                  Dashboard.index
+POST    /dashboard/addassessment                                      Dashboard.addAssessment
+GET     /dashboard/{memberid}/deleteassessment/{assessmentid}         Dashboard.deleteAssessment
+GET     /dashboard/{memberid}/quitclass/{sessionid}                 Dashboard.quitSession
+GET     /about                                                       About.index
+GET    /dashboard/gymclassdetails/{id}                               Dashboard.gymClassDetails
+POST    /dashboard/addgymclass/{id}                                  Dashboard.addGymClass
+POST    /dashboard/addsession/{id}                              Dashboard.addSession
+GET    /dashboard/bookassessment                               Dashboard.bookAssessment
+
 
 # Trainer page
-GET     /trainerdashboard                       TrainerDashboard.index
-GET     /trainerdashboard/deletemember/{id}      TrainerDashboard.deleteMember
-GET     /trainerassessment/{id}                 TrainerDashboard.trainerAssessment
-POST    /editcomment/{id}                       TrainerDashboard.editComment
-GET    /trainerdashboard/gymclassdetails/{id}   TrainerDashboard.gymClassDetails
-GET     /trainerdashboard/creategymclass        TrainerDashboard.createGymClass
-POST    /trainerdashboard/addgymclass        TrainerDashboard.addGymClass
-GET     /trainerdashboard/deletegymclass/{id}      TrainerDashboard.deleteGymClass
-POST    /trainerdashboard/editgymclass/{id}        TrainerDashboard.editGymClassDetails
+GET     /trainerdashboard                                          TrainerDashboard.index
+GET     /trainerdashboard/deletemember/{id}                        TrainerDashboard.deleteMember
+GET     /trainerassessment/{id}                                  TrainerDashboard.trainerAssessment
+POST    /editcomment/{id}                                        TrainerDashboard.editComment
+GET    /trainerdashboard/gymclassdetails/{id}                    TrainerDashboard.gymClassDetails
+GET     /trainerdashboard/creategymclass                          TrainerDashboard.createGymClass
+POST    /trainerdashboard/addgymclass                            TrainerDashboard.addGymClass
+GET     /trainerdashboard/deletegymclass/{id}                       TrainerDashboard.deleteGymClass
+GET     /trainerdashboard/{gymClassId}/deletesession/{sessionId}                       TrainerDashboard.deleteSession
+POST    /trainerdashboard/editgymclass/{id}                        TrainerDashboard.editGymClassDetails
+POST    /trainerdashboard/addSession/{id}                   TrainerDashboard.addSession
+
+GET
 
 
 # Ignore favicon requests
