@@ -22,7 +22,9 @@ GET     /about                                                       About.index
 GET    /dashboard/gymclassdetails/{id}                               Dashboard.gymClassDetails
 POST    /dashboard/addgymclass/{id}                                  Dashboard.addGymClass
 POST    /dashboard/addsession/{id}                              Dashboard.addSession
-GET    /dashboard/bookassessment                               Dashboard.bookAssessment
+GET    /dashboard/bookassessment/{id}                              Dashboard.bookAssessment
+POST    /dashboard/requestappointment/{trainerid}         Dashboard.requestAppointment
+GET     /dashboard/{memberid}/cancelappointment/{appointmentid}                 Dashboard.cancelAppointment
 
 
 # Trainer page
@@ -37,6 +39,8 @@ GET     /trainerdashboard/deletegymclass/{id}                       TrainerDashb
 GET     /trainerdashboard/{gymClassId}/deletesession/{sessionId}                       TrainerDashboard.deleteSession
 POST    /trainerdashboard/editgymclass/{id}                        TrainerDashboard.editGymClassDetails
 POST    /trainerdashboard/addSession/{id}                   TrainerDashboard.addSession
+GET     /trainerdashboard/editappointment/{id}                       TrainerDashboard.editAppointment
+POST    /trainerdashboard/appointmentdetails/{id}                     TrainerDashboard.addAppointment
 
 GET
 

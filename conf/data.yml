@@ -19,6 +19,8 @@ Assessment(a2):
    date: 2017-03-19 08:31:00
 
 
+
+
 GymClass(g1):
    name: Spinning
    duration: 40
@@ -27,6 +29,7 @@ GymClass(g1):
    weeks: 8
    difficulty: high
    startDate: 2017-09-19
+
 
 Member(m1):
   email: homer@simpson.com
@@ -50,10 +53,13 @@ Member(m2):
   startingweight: 67
 
 
+
 Trainer(t1):
   email: marge@simpson.com
   password: secret
+  name: Marge
 
 Trainer(t2):
   email: lisa@simpson.com
   password: secret
+  name: Lisa
