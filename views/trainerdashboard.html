@@ -20,4 +20,30 @@
       <a href="/trainerdashboard/creategymclass"><button class="ui blue submit button"> Add Class </button></a>
   </div>
 
+
+    <section class="ui segment">
+        <div class="column">
+            <h2>
+                Appointments..
+            </h2>
+            <table>
+            <tr>
+            #{list items:trainer.appointments, as:'appointment'}
+                <tr><h3> ${appointment.date}, ${appointment.time}  with ${appointment.member}</h3> </tr>
+                <tr>
+                    ${appointment.status}
+                </tr>
+                <tr>
+                    <a href="/trainerdashboard/editappointment/${appointment.id}">
+                        <button class="ui green submit button"> Edit </button>
+                    </a>
+                </tr>
+
+                </tr>
+            #{/list}
+            </table>
+
+        </div>
+    </section>
+
 </section>

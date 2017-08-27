@@ -6,7 +6,9 @@
 #{analytics member:member, memberStats:memberStats/}
   #{addassessment/}
   #{assessment-table assessments:assessments, member:member/}
-    <a href="/dashboard/bookassessment/${member.id}" >Book Assessment</a>
+    <a href="/dashboard/bookassessment/${member.id}" >
+        <button class="ui green submit button"> Book Assessment </button>
+    </a>
 
 </section>
 
@@ -35,23 +37,25 @@
 <section class="ui segment">
     <div class="column">
         <h2>
-            My Sessions
+            Appointments..
         </h2>
         <table>
         <tr>
-        #{list items:member.sessions, as:'session'}
-            <td><h3> ${session.name}</h3> </td>
-            <td>
-
-                    <i class="icon delete calendar"></i>
+        #{list items:member.appointment, as:'appointment'}
+            <tr><h3> ${appointment.date}, ${appointment.time} with ${appointment.trainer} </h3> </tr>
+            <tr>
+                <a href="/dashboard/${member.id}/cancelappointment/${appointment.id}" class="ui icon button">
+                    <i class="icon red delete calendar"></i>
                 </a>
-            </td>
-        </tr>
+            ${appointment.status}
+            </tr>
+            </tr>
         #{/list}
         </table>
 
     </div>
 </section>
+
 
 <section class="ui segment">
     <div class="column">
