@@ -18,14 +18,22 @@ import java.util.Date;
 public class Appointment extends Model {
     public String date;
     public String time;
-    //public Trainer trainer;
+    public String trainer;
+    public String member;
+    public String status;
+    public String trainerEmail;
+
   //  public Member member;
     //  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     //  Date date1 = sdf.parse(date);
 
-    public Appointment(String date, String time) throws ParseException {
+    public Appointment(String date, String time, String trainer, String member, String status, String trainerEmail) throws ParseException {
         this.date = date;
         this.time = time;
+        this.trainer = trainer;
+        this.member = member;
+        this.status = status;
+        this.trainerEmail = trainerEmail;
       //  this.trainer = trainer;
         //this.member = member;
         //    this.date1 = date1;
