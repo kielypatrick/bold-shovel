@@ -7,6 +7,7 @@ import utils.Analytics;
 import utils.MemberStats;
 
 
+import java.text.ParseException;
 import java.util.*;
 
 
@@ -40,7 +41,7 @@ public class Dashboard extends Controller
   {
 
     List<Trainer> trainers = Trainer.findAll();
-    render("bookassessment.html");
+    render("bookassessment.html", trainers);
   }
 
 
@@ -111,11 +112,48 @@ public class Dashboard extends Controller
     Session session = Session.findById(sessionid);
     member.sessions.remove(session);
     member.save();
-    Logger.info("Removing " + member.name + " from " + session.gymClassName + " for " + session.name);
+    //Logger.info("Removing " + member.name + " from " + session.gymClassName + " for " + session.name);
     redirect("/dashboard");
 
 
   }
+
+  public static void requestAppointment(Long trainerid, String date, String time) throws ParseException {
+    Member member = Accounts.getLoggedInMember();
+    Trainer trainer = Trainer.findById(trainerid);
+    String status = "pending...";
+    Appointment appointment = new Appointment(date, time, trainer.name, member.name, status, trainer.email);
+
+    if(member.appointment != null) {
+      Logger.info("Removing existing appointment for" + member.name);
+      cancelAppointment(member.appointment.getId(), member.getId());
+    }
+
+    trainer.appointments.add(appointment);
+    member.appointment = appointment;
+    member.save();
+    trainer.save();
+    Logger.info("Requestion appointment for " + member.name + " with " + appointment.trainer + " for "
+            + appointment.date + " at " + appointment.time);
+    redirect("/dashboard");
+  }
+
+  public static void cancelAppointment(Long appointmentid, Long memberid)
+  {
+    Member member = Member.findById(memberid);
+    Appointment appointment = Appointment.findById(appointmentid);
+    Trainer trainer = Trainer.findByEmail(appointment.trainerEmail);
+    Logger.info("Removing " + member.name  + "'s appointment booking ");
+    member.appointment = null;
+    trainer.appointments.remove(appointment);
+
+    member.save();
+    trainer.save();
+    appointment.delete();
+    redirect("/dashboard");
+  }
+
+
 
 
 

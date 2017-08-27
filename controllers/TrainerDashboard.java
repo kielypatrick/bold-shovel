@@ -15,12 +15,13 @@ import java.util.*;
 
 public class TrainerDashboard extends Controller {
   public static void index() {
-    //Trainer trainer = Accounts.getLoggedInTrainer();
+
+    Trainer trainer = Accounts.getLoggedInTrainer();
     List<Member> members = Member.findAll();
     List<GymClass> gymclasses = GymClass.findAll();
-    //List<Appointment> appointments = trainer.appointments;
-    Logger.info("Rendering Trainer Dashboard");
-    render("trainerdashboard.html", members, gymclasses);
+    List<Appointment> appointments = trainer.appointments;
+    Logger.info("Rendering Trainer Dashboard for " + trainer);
+    render("trainerdashboard.html", trainer, members, gymclasses, appointments);
   }
 
   public static void trainerAssessment(Long id) {
@@ -128,6 +129,31 @@ public class TrainerDashboard extends Controller {
     Session newSession = new Session(date, gymClass.name, gymClass.capacity, gymClass.timeSlot);
     gymClass.addSession(newSession);
     gymClass.save();
+    redirect("/trainerdashboard");
+  }
+
+  public static void editAppointment(Long id) {
+    Appointment appointment = Appointment.findById(id);
+
+
+    Logger.info("Rendering details for "  + appointment.member);
+    render("editappointment.html", appointment);
+  }
+
+  public static void addAppointment(Long id, Appointment appointment1) {
+    Logger.info("id: ", id);
+    Logger.info("appointment1: ", appointment1);
+    Appointment appointment = Appointment.findById(id);
+
+    appointment.date = appointment1.date;
+    appointment.time = appointment1.time;
+   // appointment.trainer = appointment1.trainer;
+  //  appointment.member = appointment1.member;
+    appointment.status = appointment1.status;
+
+
+    appointment.save();
+    Logger.info("Updating appointment " + appointment.status);
     redirect("/trainerdashboard");
   }
 

@@ -63,6 +63,18 @@ public class Accounts extends Controller
     return member;
   }
 
+  public static Trainer getLoggedInTrainer()
+  {
+    Trainer trainer = null;
+    if (session.contains("logged_in_Trainerid")) {
+      String trainerid = session.get("logged_in_Trainerid");
+      trainer = Trainer.findById(Long.parseLong(trainerid));
+    } else {
+      login();
+    }
+    return trainer;
+  }
+
   public static void register(String email, String name, String password, String address, String gender, double height, double startingweight)
   {
     Logger.info(name + " " + email);
