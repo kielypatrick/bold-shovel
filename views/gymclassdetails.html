@@ -1,6 +1,6 @@
 #{extends 'main.html' /}
 #{set title:'gymclassdetails' /}
-#{menu id:"gymclassdetails"/}
+#{trainermenu id:"gymclassdetails"/}
 
 <div class="ui two column grid basic middle aligned segment">
     <div class="column">
@@ -12,11 +12,11 @@
             <div class="three fields">
                 <div class="field">
                     <label>Start Date: ${gymclass.date}</label>
-                    <input placeholder="${gymclass.date}" type="date" name="gymclass1.date" value="${gymclass.date}">
+                    <input type="date" name="gymclass1.date" value="${gymclass.date}">
                 </div>
                 <div class="field">
                     <label>End Date: ${gymclass.endDate}</label>
-                    <input placeholder="${gymclass.endDate}" type="date" name="gymclass1.endDate" value="${gymclass.endDate}">
+                    <input type="date" name="gymclass1.endDate" value="${gymclass.endDate}">
                 </div>
                 <div class="field">
                     <label>Time Slot</label>
@@ -36,11 +36,11 @@
             <div class="two fields">
                 <div class="field">
                     <label>Difficulty</label>
-                    <input placeholder="${gymclass.difficulty}" type="text" name="gymclass1.difficulty" value="${gymclass.difficulty}">
+                    <input type="text" name="gymclass1.difficulty" value="${gymclass.difficulty}">
                 </div>
                 <div class="field">
                     <label>Number of Weeks</label>
-                    <input placeholder="${gymclass.weeks} weeks" type="text" name="gymclass1.weeks" value="${gymclass.weeks}">
+                    <input type="text" name="gymclass1.weeks" value="${gymclass.weeks}">
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
             <button class="ui blue submit button">Save</button>
         </form>
 
-        <h2>Add Sessions</h2>
+        <h2>Sessions</h2>
 
 
         <div class="ui relaxed divided list">
@@ -72,15 +72,16 @@
         #{/list}
 
         </div>
+        <div>
+            <h4>Add session</h4>
 
-
-        <form class="ui form" action="/trainerdashboard/addSession/${gymclass.id}" method="POST">
-            <div class="ui field">
-                <input type="date" name="date" value="date">  </input>
-            </div>
-            <button class="ui blue submit button">Save</button>
-        </form>
-
+            <form class="ui form" action="/trainerdashboard/addSession/${gymclass.id}" method="POST">
+                <div class="ui field">
+                    <input type="date" name="date" value="date">  </input>
+                </div>
+                <button class="ui blue submit button">Save</button>
+            </form>
+        </div>
 
 
     </div>

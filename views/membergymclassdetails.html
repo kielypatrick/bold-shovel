@@ -43,12 +43,10 @@
         </table>
         <table class="ui table">
             <thead>
-            <tr>
-                <th><a href="/dashboard/${gymclass.id}/nextclass" >Next Class</a></th>
-            </tr>
+
             </thead>
             <tbody>
-            <tr>
+
                 <div class="ui relaxed divided list">
                 #{list items:gymclass.sessions, as:'session'}
                 <div class="item">
@@ -74,7 +72,7 @@
                 #{/list}
                 </div>
                 </div>
-            </tr>
+
             </tbody>
         </table>
         <form action="/dashboard/addgymclass/${gymclass.id}" method="POST">
