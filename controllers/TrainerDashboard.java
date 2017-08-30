@@ -87,13 +87,25 @@ public class TrainerDashboard extends Controller {
     Logger.info("gymclass1: ", gymclass1);
     GymClass gymclass = GymClass.findById(id);
 
-    gymclass.date = gymclass1.date;
-    gymclass.endDate = gymclass1.endDate;
+    if (gymclass1.date.contains("20")) {
+    gymclass.date = gymclass1.date;}
+    if (gymclass1.date.contains("20")){
+      gymclass.endDate = gymclass1.endDate;}
     gymclass.difficulty = gymclass1.difficulty;
     gymclass.duration = gymclass1.duration;
     gymclass.weeks = gymclass1.weeks;
     gymclass.capacity = gymclass1.capacity;
     gymclass.timeSlot = gymclass1.timeSlot;
+
+    List<Session> sessions = gymclass.sessions;
+    for (Session session : sessions) {
+      session.timeSlot = gymclass1.timeSlot;
+      session.capacity = gymclass1.capacity;
+      session.timeSlot = gymclass1.timeSlot;
+      session.save();
+      Logger.info("session: " + session.name + "edited");
+
+    }
 
 
     gymclass.save();
@@ -108,12 +120,29 @@ public class TrainerDashboard extends Controller {
   public static void addGymClass(String name, double duration, String timeSlot, int capacity,
                                  int weeks, String difficulty, String date, String endDate) throws ParseException {
     Logger.info("Creating Gym Class " + name);
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     GymClass gymclass = new GymClass(name, duration, timeSlot, capacity, weeks, difficulty, date, endDate);
 
 
+
+    Date date1 = sdf.parse(date);
+    Date endDate1 = sdf.parse((endDate));
+    Calendar calendar = new GregorianCalendar((date1.getYear() + 1900), date1.getMonth(), date1.getDate());
+    Calendar calendar1 = new GregorianCalendar((endDate1.getYear() + 1900), endDate1.getMonth(), endDate1.getDate());
+    calendar1.add(Calendar.DATE, 1);
+
+
+    for (Calendar i = calendar; i.before(calendar1); i.add(Calendar.DATE, 7))
+    {
+      Date date2 = (calendar.getTime());
+
+      Session newSession = new Session(sdf.format(date2), name, capacity, timeSlot);
+      gymclass.sessions.add(newSession);
+    }
+
     gymclass.save();
+
     index();
     redirect("/trainerdashboard");
   }
