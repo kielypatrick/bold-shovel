@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.text.*;
 import java.util.List;
+import play.db.jpa.Blob;
+
 
 @Entity
 public class GymClass extends Model
@@ -24,6 +26,7 @@ public class GymClass extends Model
     public String difficulty;
     public String date;
     public String endDate;
+    public Blob image;
 
 
     @OneToMany(cascade=CascadeType.ALL)

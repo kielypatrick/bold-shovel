@@ -1,6 +1,7 @@
 package models;
 
 import play.Logger;
+import play.db.jpa.Blob;
 import play.db.jpa.Model;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Member extends Model
   public String gender;
   public double height;
   public double startingweight;
+  public Blob image;
 
   @OneToMany(cascade = CascadeType.ALL)
   public List<Assessment> assessments = new ArrayList<Assessment>();
