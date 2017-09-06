@@ -2,12 +2,21 @@
 #{set title:'Dashboard' /}
 #{menu id:"dashboard"/}
 
+
+#{if member.goals.size() == 0}
+<p>  <a href="/dashboard/addgoal" >
+    <button class="ui green submit button"> No Goals set. No time like the present!! </button>
+</a></p>
+#{/if}
+
+
+
 <section class="ui segment">
 #{analytics member:member, memberStats:memberStats/}
   #{addassessment/}
   #{assessment-table assessments:assessments, member:member/}
     <a href="/dashboard/bookassessment/${member.id}" >
-        <button class="ui green submit button"> Book Assessment </button>
+        <button class="ui purple submit button"> Book Assessment </button>
     </a>
 
 </section>
@@ -51,6 +60,47 @@
             </tr>
             </tr>
         #{/list}
+        </table>
+
+    </div>
+</section>
+
+<section class="ui segment">
+    <div class="column">
+        <h2>
+            Goals..
+        </h2>
+        <table>
+            <thead>
+
+        #{list items:member.goals, as:'goal'}
+            <tr>
+                <a href="/dashboard/viewgoal/${goal.id}">
+                    <h3> ${goal.name}, ${goal.date} </h3></a>
+                #{if (goal.achieved == true)}
+                    <i class="icon large green check square"></i>Achieved
+                #{/if}
+                #{if ((goal.open == false) && (member.appointment == null)&& (goal.assessed == false))}
+                    <p><a href="/dashboard/bookassessment/${member.id}" >
+                        <button class="ui purple submit button">Time to check your progress </button>
+                    </a></p>
+                #{/if}
+            </tr>
+            <a href="/dashboard/deletegoal/${goal.id}" class="ui icon button">
+                <i class="icon red delete calendar"></i>
+            </a>
+            #{/list}
+            </thead>
+            <tbody>
+                <td>
+
+                <a href="/dashboard/addgoal" >
+                    <button class="ui green submit button"> Create Goal </button>
+                </a>
+                </td>
+
+
+            </tbody>
         </table>
 
     </div>

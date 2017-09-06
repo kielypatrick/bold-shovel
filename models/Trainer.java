@@ -16,15 +16,17 @@ public class Trainer extends Model
 {
   public String email;
   public String password;
+  public String name;
 
   @OneToMany(cascade = CascadeType.ALL)
   public List<Appointment> appointments = new ArrayList<Appointment>();
 
 
-  public Trainer(String email, String password)
+  public Trainer(String email, String password, String name)
   {
     this.email = email;
     this.password = password;
+    this.name = name;
   }
 
   public static Trainer findByEmail(String email)

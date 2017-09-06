@@ -6,3 +6,44 @@
 <section class="ui segment">
   #{assessment-table-comment assessments:assessments, member:member/}
 </section>
+<section class="ui segment">
+    <table>
+        <thead>
+    <h3> Goals </h3>
+        </thead>
+        <tbody>
+            #{if (member.goals.size() == 0)}
+
+
+    <p>No Goals set <a href="/trainerdashboard/addgoal/${member.id}" >
+        <button class="ui green submit button"> Create Goal </button>
+    </a></p>
+
+#{/if}
+
+#{list items:member.goals, as:'goal'}
+<tr>
+
+#{if (member.goals.size() >= 1)}
+<h3>
+    <a href="/trainerdashboard/viewgoal/${goal.id}">${goal.name} </a></h3>
+    #{if (goal.achieved == true)}
+        <i class="icon large green check square"></i>Achieved
+    #{/if}
+    <a href="/trainerdashboard/${member.id}/deletegoal/${goal.id}" class="ui icon button">
+        <i class="icon red delete calendar"></i>
+    </a></h3>
+#{/if}
+
+#{/list}
+            </tr>
+
+
+    <a href="/trainerdashboard/addgoal/${member.id}" >
+        <button class="ui green submit button"> Create Goal </button>
+    </a>
+        </tbody>
+    </table>
+
+</section>
+

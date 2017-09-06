@@ -25,6 +25,12 @@ POST    /dashboard/addsession/{id}                              Dashboard.addSes
 GET    /dashboard/bookassessment/{id}                              Dashboard.bookAssessment
 POST    /dashboard/requestappointment/{trainerid}         Dashboard.requestAppointment
 GET     /dashboard/{memberid}/cancelappointment/{appointmentid}                 Dashboard.cancelAppointment
+GET     /dashboard/addgoal                                       Dashboard.addGoal
+POST    /dashboard/creategoal                                       Dashboard.createGoal
+GET     /dashboard/deletegoal/{goalId}                              Dashboard.deleteGoal
+GET     /dashboard/viewgoal/{id}                                    Dashboard.viewGoal
+POST    /dashboard/editgoal/{id}                                              Dashboard.editGoal
+
 
 
 # Trainer page
@@ -38,11 +44,18 @@ POST    /trainerdashboard/addgymclass                            TrainerDashboar
 GET     /trainerdashboard/deletegymclass/{id}                       TrainerDashboard.deleteGymClass
 GET     /trainerdashboard/{gymClassId}/deletesession/{sessionId}                       TrainerDashboard.deleteSession
 POST    /trainerdashboard/editgymclass/{id}                        TrainerDashboard.editGymClassDetails
+GET    /trainerdashboard/addSession/{id}                   TrainerDashboard.addSession
 POST    /trainerdashboard/addSession/{id}                   TrainerDashboard.addSession
 GET     /trainerdashboard/editappointment/{id}                       TrainerDashboard.editAppointment
 POST    /trainerdashboard/appointmentdetails/{id}                     TrainerDashboard.addAppointment
+GET     /trainerdashboard/viewgoal/{id}                                TrainerDashboard.viewGoal
+GET     /trainerdashboard/addgoal/{id}                                       TrainerDashboard.addGoal
+POST    /trainerdashboard/editgoal/{id}                                      TrainerDashboard.editGoal
+GET     /trainerdashboard/{memberId}/deletegoal/{goalId}         TrainerDashboard.deleteGoal
+POST    /trainerdashboard/{id}/creategoal                                      TrainerDashboard.createGoal
 
-GET
+
+
 
 
 # Ignore favicon requests

@@ -8,31 +8,47 @@ import utils.MemberStats;
 
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
 public class Dashboard extends Controller
 {
-  public static void index()
-  {
+  public static void index() throws ParseException {
     Logger.info("Rendering Dashboard");
     Member member = Accounts.getLoggedInMember();
+
     List<Assessment> assessments = member.assessments;
 
     List<GymClass> gymclasses = GymClass.findAll();
+    List<Goal> goals = member.goals;
+    for (Goal goal:goals){
+      goal.open = goal.open();
+      goal.achieved = goal.achieved();
+      goal.save();
+    }
+
     MemberStats memberStats = Analytics.generateMemberStats(member);
     Collections.reverse(assessments);
-    render("dashboard.html", member, assessments, memberStats, gymclasses);
+
+    render("dashboard.html", member, assessments, memberStats, gymclasses, goals);
   }
 
-  public static void addAssessment(double weight, double chest, double thigh, double upperarm, double waist, double hips)
-  {
+  public static void addAssessment(double weight, double chest, double thigh, double upperarm, double waist, double hips) throws ParseException {
     Logger.info("Creating Assessment");
     Member member = Accounts.getLoggedInMember();
     Assessment assessment = new Assessment(weight, chest, thigh, upperarm, waist, hips);
     MemberStats memberStats = Analytics.generateMemberStats(member);
     assessment.trend = memberStats.trend;
     member.assessments.add(assessment);
+    List<Goal> goals = member.goals;
+    for (Goal goal:goals){
+      if (goal.assessed == false) {
+        goal.assessed = goal.assessed();
+        goal.achieved = goal.achieved();
+        goal.save();
+      }
+    }
     member.save();
     redirect("/dashboard");
   }
@@ -58,12 +74,17 @@ public class Dashboard extends Controller
 
 
 
-  public static void gymClassDetails(Long id) {
+  public static void gymClassDetails(Long id) throws ParseException {
     GymClass gymclass = GymClass.findById(id);
     Logger.info("sessions: " + gymclass.getSessions());
+    List<Session> sessions = gymclass.sessions;
+    for (Session session:sessions){
+      session.inFuture = session.inFuture();
+      session.save();
+    }
 
     Logger.info( "Rendering class details for " + gymclass.name);
-    render("membergymclassdetails.html", gymclass);
+    render("membergymclassdetails.html", gymclass, sessions);
 
   }
 
@@ -75,6 +96,7 @@ public class Dashboard extends Controller
 
     for (Session session : sessions) {
       if ((session.inFuture == true) && (session.members.size() < session.capacity)) {
+        //this is included to avoid duplicate enrolment. Member is removed and re-enrolled later
         if (member.sessions.contains(session)) {
           Logger.info(member.name + " in " + session.name + "already duuuuh!");
           member.sessions.remove(session);
@@ -94,6 +116,7 @@ public class Dashboard extends Controller
     Session session = Session.findById(id);
 
     Member member = Accounts.getLoggedInMember();
+    //this is included to avoid duplicate enrolment. Member is redirected to dashboard
     if (member.sessions.contains(session)) {
       Logger.info(member.name + " in " + session.name + "already duuuuh!");
       redirect("/dashboard");
@@ -112,7 +135,7 @@ public class Dashboard extends Controller
     Session session = Session.findById(sessionid);
     member.sessions.remove(session);
     member.save();
-    //Logger.info("Removing " + member.name + " from " + session.gymClassName + " for " + session.name);
+    Logger.info("Removing " + member.name + " from " + session.gymClassName + " for " + session.name);
     redirect("/dashboard");
 
 
@@ -153,12 +176,71 @@ public class Dashboard extends Controller
     redirect("/dashboard");
   }
 
+  public static void addGoal() {
+
+    render("addgoal.html");
+
+  }
+
+  public static void createGoal(String name, String description, String date, String target, int targetInt) throws ParseException {
+    Logger.info("Creating Goal");
+    Member member = Accounts.getLoggedInMember();
+    Goal goal = new Goal(name, description, target, targetInt, date);
+
+    member.goals.add(goal);
+    member.save();
+    redirect("/dashboard");
+
+  }
+
+  public static void deleteGoal(Long goalId)
+  {
+    Goal goal = Goal.findById(goalId);
+    Member member = Accounts.getLoggedInMember();
+    Logger.info("Removing " + member.name  + "'s goal " + goal.name);
+    member.goals.remove(goal);
+    member.save();
+
+    goal.delete();
+    redirect("/dashboard");
+  }
+
+  public static void viewGoal(Long id) {
+    Goal goal = Goal.findById(id);
 
 
+    Logger.info( "Rendering class details for " + goal.name);
+    render("viewgoal.html", goal);
+
+  }
+
+  public static void editGoal(Long id, Goal goal1) throws ParseException {
+
+    Goal goal = Goal.findById(id);
+    Member member = Accounts.getLoggedInMember();
+    Trainer trainer = Accounts.getLoggedInTrainer();
 
 
+    if (goal1.date.contains("20")) {
+      goal.date = goal1.date;
+    }
+    goal.description = goal1.description;
+    if (goal1.target.contains("aist")) {
+      goal.target = "waist";
+    }
+    else if (goal1.target.contains("ght")) {
+      goal.target = "weight";
+    }
 
+    goal.targetInt = goal1.targetInt;
+    goal.open = goal.open();
 
+    goal.save();
+    Logger.info("Updating goall " + goal.name);
+
+      redirect("/dashboard");
+
+  }
 
 
 }

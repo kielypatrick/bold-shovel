@@ -28,6 +28,9 @@ public class Member extends Model
   @OneToOne(cascade = CascadeType.ALL)
   public Appointment appointment;
 
+  @OneToMany(cascade = CascadeType.ALL)
+  public List<Goal> goals = new ArrayList<Goal>();
+
 
 
   @ManyToMany

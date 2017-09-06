@@ -41,7 +41,7 @@ public class Session extends Model
 
     public boolean inFuture() throws ParseException {
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date1 = sdf.parse(name);
         Date date2 = cal.getTime();
 

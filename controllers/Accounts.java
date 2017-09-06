@@ -5,6 +5,8 @@ import models.Trainer;
 import play.Logger;
 import play.mvc.Controller;
 
+import java.text.ParseException;
+
 public class Accounts extends Controller
 {
   public static void index()
@@ -83,8 +85,7 @@ public class Accounts extends Controller
     index();
   }
 
-  public static void authenticate(String email, String password)
-  {
+  public static void authenticate(String email, String password) throws ParseException {
     Logger.info("Attempting to authenticate with " + email + ":" + password);
 
     Member member = Member.findByEmail(email);

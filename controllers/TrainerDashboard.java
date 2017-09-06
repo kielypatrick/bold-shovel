@@ -24,12 +24,15 @@ public class TrainerDashboard extends Controller {
     render("trainerdashboard.html", trainer, members, gymclasses, appointments);
   }
 
-  public static void trainerAssessment(Long id) {
+  public static void trainerAssessment(Long id) throws ParseException {
     Member member = Member.findById(id);
     List<Assessment> assessments = member.assessments;
+    List<Goal> goals = member.goals;
+
     MemberStats memberStats = Analytics.generateMemberStats(member);
     Collections.reverse(assessments);
-    render("trainerassessment.html", member, assessments, memberStats);
+
+    render("trainerassessment.html", member, assessments, memberStats, goals);
   }
 
   public static void editComment(Long id, String comment) {
@@ -89,7 +92,7 @@ public class TrainerDashboard extends Controller {
 
     if (gymclass1.date.contains("20")) {
     gymclass.date = gymclass1.date;}
-    if (gymclass1.date.contains("20")){
+    if (gymclass1.endDate.contains("20")){
       gymclass.endDate = gymclass1.endDate;}
     gymclass.difficulty = gymclass1.difficulty;
     gymclass.duration = gymclass1.duration;
@@ -184,6 +187,71 @@ public class TrainerDashboard extends Controller {
     appointment.save();
     Logger.info("Updating appointment " + appointment.status);
     redirect("/trainerdashboard");
+  }
+
+  public static void viewGoal(Long id) {
+    Goal goal = Goal.findById(id);
+
+
+    Logger.info( "Rendering class details for " + goal.name);
+    render("trainerviewgoal.html", goal);
+
+  }
+
+  public static void addGoal(Long id) {
+    Member member = Member.findById(id);
+
+    render("traineraddgoal.html", member);
+
+  }
+
+  public static void editGoal(Long id, Goal goal1) throws ParseException {
+
+    Goal goal = Goal.findById(id);
+
+
+    if (goal1.date.contains("20")) {
+      goal.date = goal1.date;
+    }
+    goal.description = goal1.description;
+    if (goal1.target.contains("aist")) {
+      goal.target = "waist";
+    }
+    else if (goal1.target.contains("ght")) {
+      goal.target = "weight";
+    }
+
+    goal.targetInt = goal1.targetInt;
+    goal.open = goal.open();
+
+    goal.save();
+    Logger.info("Updating goall " + goal.name);
+
+    redirect("/trainerdashboard");
+
+  }
+
+  public static void deleteGoal(Long memberId, Long goalId)
+  {
+    Goal goal = Goal.findById(goalId);
+    Member member = Member.findById(memberId);
+    Logger.info("Removing " + member.name  + "'s goal " + goal.name);
+    member.goals.remove(goal);
+    member.save();
+
+    goal.delete();
+    redirect("/trainerassessment/" + memberId);
+  }
+
+  public static void createGoal(Long id, String name, String description, String date, String target, int targetInt) throws ParseException {
+    Logger.info("Creating Goal");
+    Member member = Member.findById(id);
+    Goal goal = new Goal(name, description, target, targetInt, date);
+
+    member.goals.add(goal);
+    member.save();
+    redirect("/trainerassessment/" + id);
+
   }
 
 
