@@ -7,7 +7,7 @@
     <img class="ui image" src="/public/images/about.jpg">
   </div>
   <div class="column">
-    <form class="ui stacked segment form" action="/settings" method="POST">
+    <form class="ui stacked segment form" action="/settings" method="POST" enctype="multipart/form-data">
       <h3 class="ui header">Register</h3>
       <div class="two fields">
         <div class="field">
@@ -39,6 +39,10 @@
         <div class="field">
           <label>Starting Weight</label>
           <input placeholder="Starting Weight" type="text" name="member.startingweight" value="${member.startingweight}">
+        </div>
+        <div class="field">
+           <label>Profile Pic</label>
+           <input type="file" name="image">  </input>
         </div>
       </div>
       <button class="ui blue submit button">Submit</button>

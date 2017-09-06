@@ -4,6 +4,9 @@
 
 <div class="ui two column grid basic middle aligned segment">
     <div class="column">
+    #{if (gymclass.image != null)}
+        <img class="ui massive image" src="/getimage/${gymclass.id}">
+    #{/if}
         <img class="ui image" src="/public/images/about.jpg">
     </div>
     <div class="column">

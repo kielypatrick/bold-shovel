@@ -49,17 +49,18 @@
             Appointments..
         </h2>
         <table>
-        <tr>
-        #{list items:member.appointment, as:'appointment'}
-            <tr><h3> ${appointment.date}, ${appointment.time} with ${appointment.trainer} </h3> </tr>
             <tr>
-                <a href="/dashboard/${member.id}/cancelappointment/${appointment.id}" class="ui icon button">
-                    <i class="icon red delete calendar"></i>
-                </a>
-            ${appointment.status}
-            </tr>
-            </tr>
-        #{/list}
+            #{list items:member.appointment, as:'appointment'}
+                <tr><h3> ${appointment.date}, ${appointment.time} with ${appointment.trainer} </h3> </tr>
+                <tr>
+                    <a href="/dashboard/${member.id}/cancelappointment/${appointment.id}" class="ui icon button">
+                        <i class="icon red delete calendar"></i>
+                    </a>
+                    ${appointment.status}
+                </tr>
+
+            #{/list}
+
         </table>
 
     </div>
