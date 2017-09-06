@@ -2,6 +2,7 @@ package controllers;
 
 import models.*;
 import play.Logger;
+import play.db.jpa.Blob;
 import play.mvc.Controller;
 import utils.Analytics;
 import utils.MemberStats;
@@ -22,12 +23,28 @@ public class Dashboard extends Controller
 
     List<GymClass> gymclasses = GymClass.findAll();
     List<Goal> goals = member.goals;
+    //run Goal methods on login to update for the current date
     for (Goal goal:goals){
       goal.open = goal.open();
       goal.achieved = goal.achieved();
       goal.save();
     }
-
+    List<Session> sessions = member.sessions;
+//sort members upcoming classes by date
+    Collections.sort(sessions, new Comparator<Session>() {
+      @Override
+      public int compare(Session o1, Session o2) {
+        if (o1.date.after(o2.date)){
+          return 1;
+        }
+        else if (o1.date.before(o2.date)){
+          return -1;
+        }
+        else {
+          return 0;
+        }
+      }
+    });
     MemberStats memberStats = Analytics.generateMemberStats(member);
     Collections.reverse(assessments);
 
@@ -103,9 +120,10 @@ public class Dashboard extends Controller
         }
         member.sessions.add(session);
         member.save();
-        Logger.info("Enrollin " + member.name + " in " + sessions);
+
       }
     }
+    Logger.info("Enrollin " + member.name + " in " + gymclass.name + sessions);
     redirect("/dashboard");
 
 
@@ -125,7 +143,7 @@ public class Dashboard extends Controller
     member.save();
     session.save();
     Logger.info("Enrollin " + member.name + " in " + session.gymClassName + " for "
-            + session.name + ". Total of" + session.members.size());
+            + session.name + ". Total of " + session.members.size() + " attending");
     redirect("/dashboard");
   }
 
@@ -156,7 +174,7 @@ public class Dashboard extends Controller
     member.appointment = appointment;
     member.save();
     trainer.save();
-    Logger.info("Requestion appointment for " + member.name + " with " + appointment.trainer + " for "
+    Logger.info("Requesting appointment for " + member.name + " with " + trainer.name + " for "
             + appointment.date + " at " + appointment.time);
     redirect("/dashboard");
   }
@@ -183,8 +201,9 @@ public class Dashboard extends Controller
   }
 
   public static void createGoal(String name, String description, String date, String target, int targetInt) throws ParseException {
-    Logger.info("Creating Goal");
     Member member = Accounts.getLoggedInMember();
+    Logger.info("Creating Goal for " + member.name);
+
     Goal goal = new Goal(name, description, target, targetInt, date);
 
     member.goals.add(goal);
@@ -217,9 +236,6 @@ public class Dashboard extends Controller
   public static void editGoal(Long id, Goal goal1) throws ParseException {
 
     Goal goal = Goal.findById(id);
-    Member member = Accounts.getLoggedInMember();
-    Trainer trainer = Accounts.getLoggedInTrainer();
-
 
     if (goal1.date.contains("20")) {
       goal.date = goal1.date;
@@ -240,6 +256,17 @@ public class Dashboard extends Controller
 
       redirect("/dashboard");
 
+  }
+
+  public static void getPic(Long id)
+  {
+    Member member = Member.findById(id);
+    Blob image = member.image;
+    if (image.exists())
+    {
+      response.setContentTypeIfNotSet(image.type());
+      renderBinary(image.get());
+    }
   }
 
 

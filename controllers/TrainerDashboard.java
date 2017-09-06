@@ -3,6 +3,7 @@ package controllers;
 import models.*;
 import org.joda.time.LocalDate;
 import play.Logger;
+import play.db.jpa.Blob;
 import play.mvc.Controller;
 import sun.rmi.runtime.Log;
 import utils.Analytics;
@@ -26,13 +27,15 @@ public class TrainerDashboard extends Controller {
 
   public static void trainerAssessment(Long id) throws ParseException {
     Member member = Member.findById(id);
+    Trainer trainer = Accounts.getLoggedInTrainer();
+    List<Appointment> appointments = trainer.appointments;
     List<Assessment> assessments = member.assessments;
     List<Goal> goals = member.goals;
 
     MemberStats memberStats = Analytics.generateMemberStats(member);
     Collections.reverse(assessments);
 
-    render("trainerassessment.html", member, assessments, memberStats, goals);
+    render("trainerassessment.html", member, assessments, memberStats, goals, appointments);
   }
 
   public static void editComment(Long id, String comment) {
@@ -74,14 +77,13 @@ public class TrainerDashboard extends Controller {
 
   public static void gymClassDetails(Long id) {
     GymClass gymclass = GymClass.findById(id);
+    Logger.info("Rendering details for "  + gymclass.name);
+
     List<Session> sessions = gymclass.sessions;
     for (Session session : sessions) {
-      Logger.info("Show sessions: " + session.members.size());
+      Logger.info("Session attendance: " + session.members.size());
 
     }
-
-
-      Logger.info("Rendering details for "  + gymclass.name);
     render("gymclassdetails.html", gymclass);
   }
 
@@ -91,15 +93,15 @@ public class TrainerDashboard extends Controller {
     GymClass gymclass = GymClass.findById(id);
 
     if (gymclass1.date.contains("20")) {
-    gymclass.date = gymclass1.date;}
+      gymclass.date = gymclass1.date;}
     if (gymclass1.endDate.contains("20")){
       gymclass.endDate = gymclass1.endDate;}
-    gymclass.difficulty = gymclass1.difficulty;
-    gymclass.duration = gymclass1.duration;
-    gymclass.weeks = gymclass1.weeks;
-    gymclass.capacity = gymclass1.capacity;
-    gymclass.timeSlot = gymclass1.timeSlot;
-
+      gymclass.difficulty = gymclass1.difficulty;
+      gymclass.duration = gymclass1.duration;
+      gymclass.weeks = gymclass1.weeks;
+      gymclass.capacity = gymclass1.capacity;
+      gymclass.timeSlot = gymclass1.timeSlot;
+//carry changes from the block of classes down to each session
     List<Session> sessions = gymclass.sessions;
     for (Session session : sessions) {
       session.timeSlot = gymclass1.timeSlot;
@@ -109,8 +111,6 @@ public class TrainerDashboard extends Controller {
       Logger.info("session: " + session.name + "edited");
 
     }
-
-
     gymclass.save();
     Logger.info("Updating gym class " + gymclass.name);
     redirect("/trainerdashboard");
@@ -121,20 +121,20 @@ public class TrainerDashboard extends Controller {
   }
 
   public static void addGymClass(String name, double duration, String timeSlot, int capacity,
-                                 int weeks, String difficulty, String date, String endDate) throws ParseException {
+                                 int weeks, String difficulty, String date, String endDate, Blob image) throws ParseException {
     Logger.info("Creating Gym Class " + name);
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     GymClass gymclass = new GymClass(name, duration, timeSlot, capacity, weeks, difficulty, date, endDate);
+    gymclass.image = image;
 
 
-
+//Generate a weekly class from the startDate to the endDate
     Date date1 = sdf.parse(date);
     Date endDate1 = sdf.parse((endDate));
     Calendar calendar = new GregorianCalendar((date1.getYear() + 1900), date1.getMonth(), date1.getDate());
     Calendar calendar1 = new GregorianCalendar((endDate1.getYear() + 1900), endDate1.getMonth(), endDate1.getDate());
     calendar1.add(Calendar.DATE, 1);
-
 
     for (Calendar i = calendar; i.before(calendar1); i.add(Calendar.DATE, 7))
     {
@@ -148,6 +148,17 @@ public class TrainerDashboard extends Controller {
 
     index();
     redirect("/trainerdashboard");
+  }
+
+  public static void getImage(Long id)
+  {
+    GymClass gymClass = GymClass.findById(id);
+    Blob image = gymClass.image;
+    if (image.exists())
+    {
+      response.setContentTypeIfNotSet(image.type());
+      renderBinary(image.get());
+    }
   }
 
 
@@ -179,8 +190,7 @@ public class TrainerDashboard extends Controller {
 
     appointment.date = appointment1.date;
     appointment.time = appointment1.time;
-   // appointment.trainer = appointment1.trainer;
-  //  appointment.member = appointment1.member;
+
     appointment.status = appointment1.status;
 
 

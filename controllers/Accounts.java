@@ -3,6 +3,7 @@ package controllers;
 import models.Member;
 import models.Trainer;
 import play.Logger;
+import play.db.jpa.Blob;
 import play.mvc.Controller;
 
 import java.text.ParseException;
@@ -30,7 +31,7 @@ public class Accounts extends Controller
     render("settings.html", member);
   }
 
-  public static void updateSettings(Member member)
+  public static void updateSettings(Member member, Blob image)
   {
     Member loggedInMember = getLoggedInMember();
 
@@ -41,8 +42,10 @@ public class Accounts extends Controller
     loggedInMember.gender = member.gender;
     loggedInMember.height = member.height;
     loggedInMember.startingweight = member.startingweight;
+    loggedInMember.image = image;
 
     loggedInMember.save();
+    Logger.info("Updating " + loggedInMember.name + " with " + loggedInMember.image);
     redirect("/settings");
   }
 
