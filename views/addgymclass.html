@@ -2,7 +2,7 @@
 #{set title:'addgymclass' /}
 #{menu id:"addgymclass"/}
 
-<form class="ui stacked segment form" action="/trainerdashboard/addgymclass" method="POST">
+<form class="ui stacked segment form" action="/trainerdashboard/addgymclass" method="POST" enctype="multipart/form-data">
     <div>
         <h3 class="ui header">Class Name</h3>
 
@@ -41,6 +41,11 @@
                 <label>Number of Weeks</label>
                 <input placeholder="0" type="text" name="weeks">
             </div>
+            <div class="field">
+                <label>Image</label>
+                <input type="file" name="image">  </input>
+            </div>
+
         </div>
     </div>
     <button class="ui blue submit button"> Add Class </button>
