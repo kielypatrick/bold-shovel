@@ -30,6 +30,8 @@ POST    /dashboard/creategoal                                       Dashboard.cr
 GET     /dashboard/deletegoal/{goalId}                              Dashboard.deleteGoal
 GET     /dashboard/viewgoal/{id}                                    Dashboard.viewGoal
 POST    /dashboard/editgoal/{id}                                              Dashboard.editGoal
+GET     /getpic/{id}                                            Dashboard.getPic
+
 
 
 
@@ -53,6 +55,8 @@ GET     /trainerdashboard/addgoal/{id}                                       Tra
 POST    /trainerdashboard/editgoal/{id}                                      TrainerDashboard.editGoal
 GET     /trainerdashboard/{memberId}/deletegoal/{goalId}         TrainerDashboard.deleteGoal
 POST    /trainerdashboard/{id}/creategoal                                      TrainerDashboard.createGoal
+GET     /getimage/{id}                                          TrainerDashboard.getImage
+
 
 
 
