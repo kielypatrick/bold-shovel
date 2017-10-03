@@ -2,6 +2,7 @@ package models;
 
 import controllers.Accounts;
 import org.omg.PortableInterceptor.ACTIVE;
+import play.Logger;
 import play.db.jpa.Model;
 
 import javax.persistence.Entity;
@@ -66,10 +67,16 @@ public class Goal extends Model {
         List<Assessment> assessments = member.assessments;
         if (assessments.size() != 0) {
             Assessment assessment = assessments.get(assessments.size() - 1);
-            if (target == "weight") {
+            if (target.contains("ei")) {
+                Logger.info("assessing weight...");
+
                 return (targetInt >= assessment.weight);
             } else {
+                Logger.info("assessing waist...");
+
+
                 return (targetInt >= assessment.waist);
+
             }
         }
         else {
