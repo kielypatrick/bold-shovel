@@ -2,5 +2,5 @@
 "# gymass3" 
 trainer login: bart@simpson.com
 password: secret
-member login: bart@simpson.com
+member login: homer@simpson.com
 password: secret
